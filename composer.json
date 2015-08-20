@@ -1,0 +1,8 @@
+{
+    "require-all": true,
+    "require": {
+		"luracast/restler": "3.*",
+		"illuminate/view": "4.2.*",
+		"illuminate/database": "4.2.*"
+    }
+}
