@@ -18,6 +18,7 @@ if (is_readable(__DIR__ . '/vendor/autoload.php')) {
 	});
 }
 
+
 include_once(__DIR__.'/library/bootstrap.php');
 error_reporting(E_ALL);
 

@@ -36,13 +36,19 @@ class Application {
 			self::$r = new Restler();
 		}
 		foreach ($this->moduleRoutes as $module){
-			$files=scandir($module);
+			$moduleName = $module['name'];
+			if(isset($module['is_api']) && $module['is_api'] == true){	
 			
-			foreach ($files as $file){
-				$fileinfo = pathinfo($file);
-				if(strtolower($fileinfo['extension']) == "php"){
-					self::$r->addAPIClass($module."\\".$fileinfo['filename']);
+				$files=scandir($moduleName);
+			
+				foreach ($files as $file){
+					$fileinfo = pathinfo($file);
+					if(strtolower($fileinfo['extension']) == "php"){
+						self::$r->addAPIClass($moduleName."\\".$fileinfo['filename']);
+					}
 				}
+			}else{
+				 include __DIR__ . '/module/'.$moduleName.'/module.php';
 			}
 		}
 		
@@ -82,4 +88,6 @@ class Application {
 		}
 	}
 }
+
+
 ?>
