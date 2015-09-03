@@ -18,7 +18,14 @@ class Conf_Database
                     'charset'=>'utf8'
                 ),
                 'reader'=>array(
-                   
+                		0=>array(
+                				'host'=>'127.0.0.1',
+                				'dbname'=>'ecmall',
+                				'port'=>3306,
+                				'user'=>'root',
+                				'password'=>'',
+                				'charset'=>'utf8'
+                		)
             ),
            )
         ),
