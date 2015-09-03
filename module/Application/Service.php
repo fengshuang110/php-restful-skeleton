@@ -1,6 +1,6 @@
 <?php
 namespace Application;
-//Ä£¿éµÄÅäÖÃÎÄ¼þ
+//Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

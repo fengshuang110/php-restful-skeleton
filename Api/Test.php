@@ -41,6 +41,7 @@ class Test  {
 	}
 	
 	public function info($id){
+		
 		$result = \Service_Test::getInstance()->getOne($id);
 		return $result;
 	}
