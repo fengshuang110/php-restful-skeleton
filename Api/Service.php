@@ -9,12 +9,14 @@ class Service extends Base{
 		$a = $this->getService("Application\Service\UserService");
 		$b = $this->getService("Application\Service\UserService");
 		var_dump($a === $b);
-		return $this->getService("Application\Service\UserService")->getOne($id);
+		$this->getService("Application\Service\UserService")->getOne($id);
+		return $this->runtime();
 	}
 	
 	public function test1(){
 		$cache1 = $this->serviceLocator->get('Redis');
 		$cache2 = $this->serviceLocator->get('Memcache');
+		return $this->runtime();
 		var_dump($cache1);
 		var_dump($cache2);die;
 	}

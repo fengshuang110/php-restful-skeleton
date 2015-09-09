@@ -2,6 +2,7 @@
 namespace Api;
 
 use Luracast\Restler\Format\HtmlFormat;
+use Application;
 class Test  extends Base{
 	/**
 	 * 默认是get请求
@@ -42,7 +43,7 @@ class Test  extends Base{
 	
 	public function info($id){
 		
-		$result = $this->serviceLocator->get('User')->getOne($id);
+		$result = $this->getService('Application\Service\UserService')->getOne($id);
 		return $result;
 	}
 	
