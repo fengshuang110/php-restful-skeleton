@@ -4,7 +4,7 @@ use Zend\Loader\AutoloaderFactory;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Config\Config;
 use Zend\ServiceManager\ServiceManager;
-//Ä£¿éµÄÅäÖÃÎÄ¼þ
+//Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 
 class Module
 {
@@ -33,12 +33,12 @@ class Module
 		$this->AutoloaderConfig();
 		$this->ServiceConfig();
 	}
-	//»ñÈ¡ÅäÖÃÎÄ¼þÐÅÏ¢
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ï¢
     public static function getConfig(){
         return include __DIR__ . '/config/module.config.php';
     }
 
-	//ÅäÖÃÀà×Ô¶¯×¢²á»úÖÆ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½
     public static function AutoloaderConfig()
     {
     	
@@ -61,6 +61,10 @@ class Module
     			case 'factories':
     				foreach ($classes as $service_name=>$class){
     					$this->serviceManager->setFactory($service_name,$class);
+    					$class = $this->serviceManager->get($service_name);
+    					if(method_exists($class,'setServiceLocator')){
+    						$class->setServiceLocator($this->serviceManager);
+    					}
     				}
     				break;
     			case 'abstract_factories':

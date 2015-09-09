@@ -16,13 +16,16 @@ Abstract class Base  {
 	}
 	
 	public function getService($ServiceName){
-		$adapter = $this->serviceLocator->get('Db');
+		
 		if($this->serviceLocator->has($ServiceName)){
 			return $this->serviceLocator->get($ServiceName);
 		}
 		if(class_exists($ServiceName)){
-			$service = new $ServiceName($adapter);
-			$this->serviceLocator->setService($ServiceName,$service);
+			$this->serviceLocator->setFactory($ServiceName,$ServiceName);
+			$service = $this->serviceLocator->get($ServiceName);
+			if(method_exists($service,'setServiceLocator')){
+				$service->setServiceLocator($this->serviceLocator);
+			}
 			return $service;
 		}
 		return false;

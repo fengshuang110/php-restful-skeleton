@@ -4,7 +4,7 @@ return array(
 			"factories"=>array(
 					"Memcache"  =>"Zend\Service\MemcacheFactory",
 					"Redis"  	=>"Zend\Service\RedisFactory",
-					"Db"  	=>"Zend\Service\DbAdapterFactory"
+					"Db"  		=>"Zend\Service\DbAdapterFactory",
 			),
 			'abstract_factories'=>array(
 					

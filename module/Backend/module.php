@@ -61,6 +61,9 @@ class Module
     			case 'factories':
     				foreach ($classes as $service_name=>$class){
     					$this->serviceManager->setFactory($service_name,$class);
+    					if(method_exists($class,'setServiceLocator')){
+    						$this->serviceManager->get($service_name)->setServiceLocator($this->serviceManager);
+    					}
     				}
     				break;
     			case 'abstract_factories':
