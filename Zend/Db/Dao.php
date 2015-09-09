@@ -1,11 +1,13 @@
 <?php
+namespace Zend\Db;
+use Illuminate\Database\Eloquent\Model;
 /**
  * 数据库调用层 链式写法 
  * @author fengshuang
  *2015/6/1
  * UTF-8
  */
-class Lib_Dao {
+class Dao extends Model{
 	private $db_adapter = null;
 	protected $cache_adapter = null;
 	private $cache = false;
@@ -15,12 +17,13 @@ class Lib_Dao {
 	private $expire = 300;
 	private $cache_prefix = 'beiquan_';
 	private $db_tag = '';
-	public function __construct($db_tag) {
-		$this->db_tag = $db_tag;
-		$db_factory = new Db_Factory ( $db_tag );
+	public function __construct($serviceLocator) {
+		$config = $serviceLocator->get('config');
+		$dbConfig = $config['db'];
+		$dbConfig = $dbConfig->toArray();
+		$db_factory = new Factory($dbConfig);
 		$this->db_adapter = $db_factory->getDBAdapter ();
-		$cache_factory = new Cache_Factory ();
-		$this->cache_adapter = $cache_factory->getCacheAdapter ();
+		$this->cache_adapter = $serviceLocator->get('Memcache');
 	}
 
     /**
@@ -216,7 +219,7 @@ class Lib_Dao {
 		}
 		
 		if ($this->cache && empty ( $this->tag )) {
-			throw new Exception ( 'The cache tag is null.' );
+			throw new \Exception ( 'The cache tag is null.' );
 		}
 		if($this->is_set_key){
 			$this->key = $this->tag.$this->key;

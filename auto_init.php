@@ -51,7 +51,6 @@ class Application {
 				 include __DIR__ . '/module/'.$moduleName.'/module.php';
 			}
 		}
-		
 		if($this->document){
 			self::$r->addAPIClass("Resources");
 		}
@@ -60,10 +59,14 @@ class Application {
 			$this->cors();
 		}
 		
+		if(!empty( $this->viewPath) && is_dir($this->viewPath)){
+			HtmlFormat::$viewPath = $this->viewPath;
+		}
+		HtmlFormat::$template = "blade";
 		Defaults::$crossOriginResourceSharing = true;//是否允许跨域
 		UploadFormat::$allowedMimeTypes = array('image/jpeg', 'image/png', 'application/macbinary', 'application/octet-stream');
-		
 		self::$r->setSupportedFormats('JsonFormat', 'HtmlFormat', 'UploadFormat', 'XmlFormat');
+		
 		self::$r->handle();
 	}
 	

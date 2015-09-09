@@ -33,15 +33,17 @@ class Lib_Tools
         }
         return self::IMAGE_URL_PREFIX.$url;
     }
-
+	
     public static function completeImageUrlInArray($array, $fields)
     {
         array_walk($array, function(&$item, $key, $fields){
-            foreach($fields as $field) {
-                if(isset($item[$field])) {
-                    $item[$field] = Lib_Tools::completeImageUrl($item[$field]);
-                }
-            }
+			if (is_array($fields)) {
+				foreach($fields as $field) {
+					if(isset($item[$field])) {
+						$item[$field] = Lib_Tools::completeImageUrl($item[$field]);
+					}
+				}
+			}
         }, $fields);
         return $array;
     }

@@ -14,7 +14,7 @@ class Lib_Duanxin_Adapter_Qxt extends Lib_Duanxin_Base_Abstract {
     {
         $code = self::getCode(6,true);
         
-        $content = sprintf('倍全提醒您：您本次获取的手机验证码为%s，请正确填写此验证码完成操作。【倍全商城】', $code);
+        $content = sprintf('提醒您：您本次获取的手机验证码为%s，请正确填写此验证码完成操作。【】', $code);
         //接口发送
         
         $get_data = 'action=' . $this->config['action'] 

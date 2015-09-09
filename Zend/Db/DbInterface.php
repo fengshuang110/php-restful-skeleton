@@ -1,11 +1,12 @@
 <?php
+namespace Zend\Db;
 /**
  * 
  * @author fengshuang
  * 2015/6/1
  * UTF-8
  */
-interface Db_Interface{
+interface DbInterface{
 	
 	/**
 	 * 获得链接

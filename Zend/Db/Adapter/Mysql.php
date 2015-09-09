@@ -1,11 +1,14 @@
 <?php
+namespace Zend\Db\Adapter;
+use Zend\Db\DbAbstract;
+use Zend\Db\DbInterface;
 /**
  * 
  * @author fengshuang
  * 2015/6/1
  * UTF-8
  */
-class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
+class Mysql extends DbAbstract implements DbInterface {
 	private $pdo = null;
 	private $stmt = null;
 	private $prep_sql = array ();
@@ -17,15 +20,16 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 	 * @var Array
 	 */
 	private $pdo_type = array (
-			'integer' => PDO::PARAM_INT,
-			'int' => PDO::PARAM_INT,
-			'boolean' => PDO::PARAM_BOOL,
-			'bool' => PDO::PARAM_BOOL,
-			'string' => PDO::PARAM_STR,
-			'null' => PDO::PARAM_NULL,
-			'object' => PDO::PARAM_LOB,
-			'float' => PDO::PARAM_STR,
-			'double' => PDO::PARAM_STR 
+			
+			'integer' => \PDO::PARAM_INT,
+			'int' => \PDO::PARAM_INT,
+			'boolean' => \PDO::PARAM_BOOL,
+			'bool' => \PDO::PARAM_BOOL,
+			'string' => \PDO::PARAM_STR,
+			'null' => \PDO::PARAM_NULL,
+			'object' => \PDO::PARAM_LOB,
+			'float' => \PDO::PARAM_STR,
+			'double' => \PDO::PARAM_STR 
 	);
 	function __construct($db_config) {
 		$this->_init ( $db_config );
@@ -49,10 +53,10 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 	 */
 	function setData($sql, $data) {
 		if (! is_array ( $data )) {
-			throw new Exception ( 'The data must be array.' );
+			throw new \Exception ( 'The data must be array.' );
 		}
 		if (!is_string ( $sql )) {
-			throw new Exception ( 'The sql must be string.' );
+			throw new \Exception ( 'The sql must be string.' );
 		} 
 		$this->prep_sql = $sql;
 		$this->prep_data = $data;
@@ -98,7 +102,7 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 		if ($this->pdo->inTransaction ()) {
 			try {
 				$res = $this->pdo->rollBack ();
-			} catch ( PDOException $e ) {
+			} catch ( \PDOException $e ) {
 				$this->_close ();
 				Lib_Log::write ( 'system_sql', 'transaction', $e->getMessage () );
 			}
@@ -117,7 +121,7 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 		if ($this->pdo->inTransaction ()) {
 			try {
 				$res = $this->pdo->commit ();
-			} catch ( PDOException $e ) {
+			} catch ( \PDOException $e ) {
 				// 出问题回滚 写入日志
 				$this->pdo->rollBack ();
 				$this->_close ();
@@ -128,7 +132,7 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 			return $res;
 		} else {
 			$this->_close ();
-			throw new Exception ( 'There is no active transaction.' );
+			throw new \Exception ( 'There is no active transaction.' );
 		}
 	}
 	
@@ -140,7 +144,7 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 	function fetchAll() {
 		$this->checkStatus ();
 		$this->excute ();
-		$res = $this->stmt->fetchAll ( PDO::FETCH_ASSOC );
+		$res = $this->stmt->fetchAll ( \PDO::FETCH_ASSOC );
 		$this->_close ();
 		return $res;
 	}
@@ -166,7 +170,7 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 	function fetchOne() {
 		$this->checkStatus ();
 		$this->excute ();
-		$res = $this->stmt->fetch ( PDO::FETCH_ASSOC );
+		$res = $this->stmt->fetch ( \PDO::FETCH_ASSOC );
 		$this->_close ();
 		return $res;
 	}
@@ -204,7 +208,7 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 	 */
 	private function checkStatus() {
 		if (empty ( $this->pdo )) {
-			throw new Exception ( 'pdo is null.' );
+			throw new \Exception ( 'pdo is null.' );
 		}
 	}
 	
@@ -217,17 +221,17 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 		// 校验数据是否正确
 		
 		if (!is_string ( $this->prep_sql ) || !is_array ( $this->prep_data )) {
-			throw new Exception ( 'Type is error.' );
+			throw new \Exception ( 'Type is error.' );
 		}
 		
 		$this->stmt = $this->pdo->prepare ( $this->prep_sql, array (
-				PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY 
+				\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY 
 		) );
 		$data_keys = array_keys ( $this->prep_data );
 		$data_values = array_values ( $this->prep_data );
 		for($j = 0; $j < count ( $this->prep_data ); $j ++) {
 			$type = $this->pdo_type [gettype ( $data_values [$j] )];
-			if ($type == PDO::PARAM_INT) {
+			if ($type == \PDO::PARAM_INT) {
 				$data_values [$j] = intval ( $data_values [$j] );
 			}
 			$this->stmt->bindParam ( $data_keys [$j], $data_values [$j], $type );
@@ -249,14 +253,14 @@ class Db_Adapter_Mysql extends Db_Abstract implements Db_Interface {
 		
 		$config = $this->_writer;
 		try {
-			$this->pdo = new PDO ( "mysql:host={$config ['host']};dbname={$config['dbname']};port={$config['port']};charset={$config['charset']}", $config ['user'], $config ['password'], array (
-					PDO::ATTR_PERSISTENT		 => true,
-					PDO::ATTR_ERRMODE			 => PDO::ERRMODE_EXCEPTION,
-					PDO::ATTR_TIMEOUT 			 => 2,
-					PDO::ATTR_EMULATE_PREPARES   => true
+			$this->pdo = new \PDO ( "mysql:host={$config ['host']};dbname={$config['dbname']};port={$config['port']};charset={$config['charset']}", $config ['user'], $config ['password'], array (
+					\PDO::ATTR_PERSISTENT		 => true,
+					\PDO::ATTR_ERRMODE			 => \PDO::ERRMODE_EXCEPTION,
+					\PDO::ATTR_TIMEOUT 			 => 2,
+					\PDO::ATTR_EMULATE_PREPARES   => true
 			) );
 			
-		} catch ( PDOException $e ) {
+		} catch ( \PDOException $e ) {
 			$msg = $e->getMessage ();
 			Lib_Log::write ( 'system_sql', 'connect', $msg );
 		}

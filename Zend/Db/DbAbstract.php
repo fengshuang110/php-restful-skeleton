@@ -1,4 +1,7 @@
 <?php
+namespace Zend\Db;
+
+
 /**
  * 
  * @author fengshuang
@@ -6,7 +9,7 @@
  * UTF-8
  */
 
-abstract class Db_Abstract{
+abstract class DbAbstract{
 	protected $_writer;
 	protected $_reader;
 	protected $_isReader = true;
@@ -17,11 +20,12 @@ abstract class Db_Abstract{
 	 * @throws Exception
 	 */
 	protected function _init($db_config) {
+		
 		if (empty ( $db_config ['writer'] )) {
-			throw new Exception ( 'Can not found the database writer config.' );
+			throw new \Exception ( 'Can not found the database writer config.' );
 		}
 		if (empty ( $db_config ['reader'] ) || ! is_array ( $db_config ['reader'] )) {
-			throw new Exception ( 'Can not found the database reader config.' );
+			throw new \Exception ( 'Can not found the database reader config.' );
 		}
 		$this->_writer = $db_config ['writer'];
 		$readerIndex = rand ( 0, count ( $db_config ['reader'] ) - 1 );

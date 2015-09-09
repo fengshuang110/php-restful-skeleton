@@ -1,16 +1,15 @@
 <?php 
 namespace Api;
-
 class Service extends Base{
    
 	public  $url="www.baidu.com";
 
 	
-	public function test(){
-		
-		//$serviceManager->setFactory("newservice","MVC\NewService");
-		echo 	$this->serviceLocator->get('User')->url;die;
-		
+	public function test($id){
+		$a = $this->getService("Application\Service\UserService");
+		$b = $this->getService("Application\Service\UserService");
+		var_dump($a === $b);
+		return $this->getService("Application\Service\UserService")->getOne($id);
 	}
 	
 	public function test1(){
