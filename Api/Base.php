@@ -24,7 +24,9 @@ Abstract class Base  {
 			$this->serviceLocator->setFactory($ServiceName,$ServiceName);
 			$service = $this->serviceLocator->get($ServiceName);
 			if(method_exists($service,'setServiceLocator')){
+			
 				$service->setServiceLocator($this->serviceLocator);
+		
 			}
 			return $service;
 		}
