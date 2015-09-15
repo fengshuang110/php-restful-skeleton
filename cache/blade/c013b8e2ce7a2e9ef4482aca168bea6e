@@ -1,0 +1,50 @@
+<?php $__env->startSection('content'); ?>
+<div class="row">
+ <div class="col-sm-12">
+  <section class="panel">
+   <header class="panel-heading">
+      权限列表
+   </header>
+   <div class="panel-body">
+    <div class="btn-group">
+     <a id="editable-sample_new" href="/permission/add" class="btn btn-primary">
+                添加权限 <i class="fa fa-plus"></i>
+     </a>
+    </div>
+    <table class="table  table-hover general-table">
+      <thead>
+       <tr>
+        <th> ID</th>
+        <th>权限名称</th>
+        <th>上级ID</th>
+        <th>controller</th>
+        <th>action</th>
+        <th>操作</th>
+       </tr>
+      </thead>
+      <tbody>
+		<?php foreach($lists as $key => $item): ?> 
+        <tr>
+         <td><?php echo $item['menu_id']; ?></td>
+         <td ><?php echo $item['name']; ?></td>
+         <td ><?php echo $item['parent_id']; ?></td>
+         <td ><?php echo $item['controller']; ?></td>
+         <td ><?php echo $item['action']; ?></td>
+         <td>
+             <a href="/permission/edit?id=<?php echo $item['menu_id']; ?>" class="btn btn-info" >编辑</a>
+             <a href="/permission/del?id=<?php echo $item['menu_id']; ?>" onclick="return confirm('删除操作将会删除菜单权限和其子菜单权限，确定删除吗?');" class="btn btn-danger" >删除</a>
+         </td>
+        </tr>
+		<?php endforeach; ?>
+       </tbody>
+      </table>
+        <?php echo $__env->make('public.paginator', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>     
+   </div>
+  </section>
+ </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('public.admin.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

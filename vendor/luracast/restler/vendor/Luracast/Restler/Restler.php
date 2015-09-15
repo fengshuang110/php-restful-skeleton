@@ -579,19 +579,21 @@ class Restler extends EventDispatcher
      */
     protected function route()
     {
+    	
         $this->dispatch('route');
 
         $params = $this->getRequestData();
-
+       
         //backward compatibility for restler 2 and below
         if (!Defaults::$smartParameterParsing) {
             $params = $params + array(Defaults::$fullRequestDataName => $params);
         }
-
+        
         $this->apiMethodInfo = $o = Routes::find(
             $this->url, $this->requestMethod,
             $this->requestedApiVersion, $params
         );
+        
         //set defaults based on api method comments
         if (isset($o->metadata)) {
             foreach (Defaults::$fromComments as $key => $defaultsKey) {
@@ -601,7 +603,9 @@ class Restler extends EventDispatcher
                 }
             }
         }
+      
         if (!isset($o->className))
+        	
             throw new RestException(404);
 
         if(isset($this->apiVersionMap[$o->className])){

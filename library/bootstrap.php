@@ -17,7 +17,6 @@ function loader($class) {
 		}
 		$class_path = str_replace('_', '/', $class);
 		$file = dirname(__FILE__). '/'.$class_path . '.php';
-		echo $file;
 		if(file_exists($file)){		
 			require_once($file);
 		}else{

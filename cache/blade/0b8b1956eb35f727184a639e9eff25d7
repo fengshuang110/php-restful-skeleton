@@ -1,0 +1,68 @@
+<nav>
+<?php if($totalPage == 1): ?>
+ <ul class="pagination">
+
+   <li class="disabled"> <span>上一页</span></li>
+   <li class="active" ><a hre="#">1</a></li>
+   <li><span>下一页</span></li>
+<?php elseif($totalPage >= 2): ?>
+    <?php if($page==1): ?> <li class="disabled"><span>上一页</span></li>
+    	<?php else: ?> <li><a href="?<?php echo $page_query; ?>&pn=<?php echo $page-1; ?>">上一页</a></li>
+    <?php endif; ?>
+    <?php if($totalPage-$page > 5): ?>
+            <?php if($page > 6): ?>
+                <li><a href="?<?php echo $page_query; ?>&pn=1">1</a></li>
+                <li><span>...</span> </li>
+                <?php for($index=$page-5;$index<$page+4;$index++): ?>
+                    <?php if($index+1 == $page): ?>
+                       <li  class="active"> <span><?php echo $page; ?></span> </li>
+                    <?php else: ?>
+                         <li><a href="?<?php echo $page_query; ?>&pn=<?php echo $index+1; ?>"><?php echo $index+1; ?></a> </li>
+                    <?php endif; ?>
+                 <?php endfor; ?>
+            <?php else: ?>
+                 <?php for($index=0;$index<5;$index++): ?>
+                    <?php if($index+1 == $page): ?>
+                       <li  class="active">   <span><?php echo $page; ?></span> </li>
+                    <?php else: ?>
+                       <li>  <a href="?<?php echo $page_query; ?>&pn=<?php echo $index+1; ?>"><?php echo $index+1; ?></a> </li>
+                    <?php endif; ?>
+                <?php endfor; ?>
+            <?php endif; ?>
+            <?php if($totalPage >10): ?>
+            <li><span>...</span> </li>
+           <li> <a href="?<?php echo $page_query; ?>&pn=<?php echo $totalPage; ?>"><?php echo $totalPage; ?></a> </li>
+            <?php endif; ?>
+    <?php else: ?>
+        <?php if($totalPage > 10 && $page >6 ): ?>
+            <li> <a href="?<?php echo $page_query; ?>&pn=1">1</a> </li>
+             <li><span>...</span> </li>
+             <?php for($index=$page-5;$index<$totalPage;$index++): ?>
+                <?php if($index+1 == $page): ?>
+                    <li class="active"><span><?php echo $page; ?></span></li>
+                <?php else: ?>
+                    <li> <a href="?<?php echo $page_query; ?>&pn=<?php echo $index+1; ?>"><?php echo $index+1; ?></a> </li>
+                <?php endif; ?>
+            <?php endfor; ?>
+        <?php else: ?>
+            <?php for($index=0;$index<$totalPage;$index++): ?>
+              <?php if($index+1 == $page): ?>
+               <li  class="active"> <span><?php echo $page; ?></span></li>
+              <?php else: ?>
+                <li> <a href="?<?php echo $page_query; ?>&pn=<?php echo $index+1; ?>"><?php echo $index+1; ?></a> </li>
+              <?php endif; ?>
+            <?php endfor; ?>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if($page==$totalPage): ?><li class="disabled"><span>下一页</span></li>
+    <?php else: ?> <li><a href="?<?php echo $page_query; ?>&pn=<?php echo $page+1; ?>">下一页</a> </li>
+    <?php endif; ?>
+
+</ul>
+<?php endif; ?>
+<?php if($totalPage == 0): ?>
+<div class="alert alert-danger" role="alert">
+      <strong>好像什么都没有!</strong> 添加新的条目试试.
+    </div>
+<?php endif; ?>
+</nav>

@@ -34,7 +34,7 @@ class Test  extends Base{
 	
 	/**
 	 * 默认是php原生模板 支持和html 模板是lavarel blade模板  
-	 * @view template/index
+	 * @view template/index1
 	 */
 	public function  index2(){
 		HtmlFormat::$data['data'] = array("name"=>"fengshuang","age"=>21,"qq"=>"945558163");

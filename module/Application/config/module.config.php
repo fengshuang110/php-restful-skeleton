@@ -14,7 +14,7 @@ return array(
              
                 'writer'=>array(
                     'host'=>'127.0.0.1',
-                    'dbname'=>'ecmall',
+                    'dbname'=>'yidiano2o',
                     'port'=>3306,
                     'user'=>'root',
                     'password'=>'',
@@ -22,11 +22,11 @@ return array(
                 ),
                 'reader'=>array(
                     "0"=>array(
-                        'host'=>'rdsvelr6lvqrljlrwnzhv.mysql.rds.aliyuncs.com',
-                        'dbname'=>'ecmall',
+                        'host'=>'127.0.0.1',
+                        'dbname'=>'yidiano2o',
                         'port'=>3306,
-                        'user'=>'bqmart',
-                        'password'=>'beiquan8780',
+                        'user'=>'root',
+                        'password'=>'',
                         'charset'=>'utf8'),
                 )
 	),
@@ -53,7 +53,7 @@ return array(
 	
 			"local"=>array(
 						
-						'host' => '127.0.0.1',
+						'host' => '121.41.117.10',
 							
 						'port' => '11211' ,
 						

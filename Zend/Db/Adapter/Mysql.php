@@ -234,6 +234,7 @@ class Mysql extends DbAbstract implements DbInterface {
 			if ($type == \PDO::PARAM_INT) {
 				$data_values [$j] = intval ( $data_values [$j] );
 			}
+			
 			$this->stmt->bindParam ( $data_keys [$j], $data_values [$j], $type );
 		}
 // 		var_dump($this->prep_sql);

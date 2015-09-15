@@ -20,7 +20,7 @@ class Helper_Imgcode {
       }
       
       //创建4个随机码
-      private function createCode($length){
+      private function createCode(){
          $_leng=strlen($this->charset)-1;
          for($i=1;$i<=$this->codelen;$i++){
             $this->code.=$this->charset[mt_rand(0,$_leng)];
@@ -46,11 +46,11 @@ class Helper_Imgcode {
          $_x=(($this->width-30) / $this->codelen);   //字体长度
          for ($i=0;$i<strlen($this->code);$i++){
             //文字颜色
-            // $color=imagecolorallocate($this->img,mt_rand(0,80),mt_rand(0,80),mt_rand(0,80));
-            $color=imagecolorallocate($this->img,40,80,160);
+            $color=imagecolorallocate($this->img,mt_rand(0,80),mt_rand(0,80),mt_rand(0,80));
+            //$color=imagecolorallocate($this->img,40,80,160);
             //资源句柄 字体大小 倾斜度 字体长度  字体高度  字体颜色  字体  具体文本
-            //imagettftext($this->img,$this->fontsize,mt_rand(-30,30),$_x*$i+mt_rand(5,10),$this->height/1.4,$color,$this->font,$this->code[$i]);
-			   imagettftext($this->img,$this->fontsize,0,$_x*$i+15,$this->height/1.4,$color,$this->font,$this->code[$i]);
+            imagettftext($this->img,$this->fontsize,mt_rand(-30,30),$_x*$i+mt_rand(5,10),$this->height/1.4,$color,$this->font,$this->code[$i]);
+			//imagettftext($this->img,$this->fontsize,0,$_x*$i+15,$this->height/1.4,$color,$this->font,$this->code[$i]);
          }
        }
        

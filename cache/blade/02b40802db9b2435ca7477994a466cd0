@@ -1,0 +1,14 @@
+<?php $__env->startSection('content'); ?>
+
+  <div class="page-header">
+        <h2>编辑权限</h2>
+  </div>
+  <div class="panel panel-warning">
+      
+      <div class="panel-body">
+		 Panel content
+      </div>
+    </div>
+
+ <?php $__env->stopSection(); ?>
+<?php echo $__env->make('public.admin.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

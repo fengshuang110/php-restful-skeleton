@@ -20,7 +20,7 @@ trait ServiceLocatorAwareTrait
 
     /**
      * Set service locator
-     *
+     *@access private
      * @param ServiceLocatorInterface $serviceLocator
      * @return mixed
      */
@@ -33,7 +33,7 @@ trait ServiceLocatorAwareTrait
 
     /**
      * Get service locator
-     *
+     *@access private
      * @return ServiceLocatorInterface
      */
    

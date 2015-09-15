@@ -6,10 +6,7 @@ class Service extends Base{
 
 	
 	public function test($id){
-		$a = $this->getService("Application\Service\UserService");
-		$b = $this->getService("Application\Service\UserService");
-		var_dump($a === $b);
-		$this->getService("Application\Service\UserService")->getOne($id);
+		return $this->getService("Application\Service\User")->getOne($id);
 		return $this->runtime();
 	}
 	

@@ -52,22 +52,41 @@ class Application {
 			}
 		}
 		if($this->document){
+			
 			self::$r->addAPIClass("Resources");
+		
 		}
+		
 		
 		if($this->access){
+			
 			$this->cors();
+		
 		}
+		
 		
 		if(!empty( $this->viewPath) && is_dir($this->viewPath)){
+
 			HtmlFormat::$viewPath = $this->viewPath;
-		}
-		HtmlFormat::$template = "blade";
-		Defaults::$crossOriginResourceSharing = true;//是否允许跨域
-		UploadFormat::$allowedMimeTypes = array('image/jpeg', 'image/png', 'application/macbinary', 'application/octet-stream');
-		self::$r->setSupportedFormats('JsonFormat', 'HtmlFormat', 'UploadFormat', 'XmlFormat');
 		
+		}
+		
+		HtmlFormat::$template = "blade";
+		
+		Defaults::$crossOriginResourceSharing = true;//是否允许跨域
+		
+		UploadFormat::$allowedMimeTypes = array('image/jpeg', 'image/png', 'application/macbinary', 'application/octet-stream');
+	self::$r->setSupportedFormats('JsonFormat', 'HtmlFormat', 'UploadFormat', 'XmlFormat');
+		
+		
+	
 		self::$r->handle();
+		var_dump(self::$r);die;
+		
+		
+		
+
+		
 	}
 	
 	public function cors() {

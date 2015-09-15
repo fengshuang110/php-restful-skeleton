@@ -1,0 +1,48 @@
+<?php $__env->startSection('content'); ?>
+<div class="row">
+ <div class="col-sm-12">
+  <section class="panel">
+   <header class="panel-heading">
+      角色列表
+   </header>
+   <div class="panel-body">
+    <div class="btn-group">
+     <a id="editable-sample_new" href="/user/add" class="btn btn-primary">
+                添加角色 <i class="fa fa-plus"></i>
+     </a>
+    </div>
+    <table class="table  table-hover general-table">
+      <thead>
+      <tr>
+       <th> ID</th>
+        <th class="hidden-phone">用户名</th>
+        <th>姓名</th>
+        <th>电话号码</th>
+        <th>密码</th>
+        <th>角色</th>
+        <th>操作</th>
+       </tr>
+      </thead>
+      <tbody>
+		<?php foreach($lists as $user): ?>
+        <tr>
+         <td><a href="#"> <?php echo $user['user_id']; ?></a></td>
+         <td class="hidden-phone"> <?php echo $user['username']; ?></td>
+         <td class="hidden-phone"> <?php echo $user['realname']; ?></td>
+         <td class="hidden-phone"> <?php echo $user['mobile']; ?></td>
+         <td class="hidden-phone"> <?php echo $user['password']; ?></td>
+         <td class="hidden-phone"><?php if($user['user_id']==1): ?> 超级管理员 <?php else: ?> <?php echo $user['role_name']; ?> <?php endif; ?></td>
+         <td><a href="/user/edit?id= <?php echo $user['user_id']; ?>" class="btn btn-info" >编辑</a>
+             <a href="/user/del?id= <?php echo $user['user_id']; ?>" onclick="return confirm('您确定删除角色吗?');" class="btn btn-danger" >删除</a>
+         </td>
+        </tr>
+		<?php endforeach; ?>
+       </tbody>
+      </table>
+   <?php echo $__env->make('public.paginator', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>   
+   </div>
+  </section>
+ </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('public.admin.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
  *2015/6/1
  * UTF-8
  */
-class Dao extends Model{
+class Dao{
 	private $db_adapter = null;
 	protected $cache_adapter = null;
+	public $sql_helper;
+	protected $bind;
 	private $cache = false;
 	private $tag = '';
 	private $key = '';
@@ -313,4 +315,96 @@ class Dao extends Model{
 		$this->key = '';
 		$this->expire = 300;
 	}
+	
+	//查询
+	public function select($params,$is_count = false){
+		$this->bind = array();
+		 if($is_count){
+		 	$this->sql_helper
+		 			->from($this->table)
+		 			->count($this->table, $this->primaryKey, "count");
+		 }else{
+		 	$params['start'] =empty($params['start']) ? 0:$params['start'];
+		 	$params['limit'] =empty($params['limit']) ? 15:$params['limit'];
+		 	$this->sql_helper
+		 			->select2($this->table)
+		 			->limit($params['start'],$params['limit']);
+		 	if(!empty($params['groupby'])){
+		 		foreach ($params['groupby'] as $groupby){
+		 			$this->sql_helper->groupBy($this->table, $groupby);
+		 		}
+		 	}
+		 	if(!empty($params['orderby'])){
+		 		foreach ($params['orderby'] as $orderby){
+		 			$this->sql_helper->orderBy($this->table, $orderby);
+		 		}
+		 	}
+		 	if(!empty($this->foreign)){
+		 		$this->sql_helper->leftJoin(
+		 					$this->foreign['table'], 
+		 					$this->foreign['table'], 
+		 					$this->foreign['field'],
+		 					$this->table.".".$this->foreignKey."=".$this->foreign['table'].".".$this->foreign['key']);
+		 	}
+		 	
+		 }
+		 
+		
+		 $sql = $this->sql_helper->__toString();
+		 
+		 $adapter = $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind);
+		 
+		 if($is_count){
+		 	$result = $adapter->fetchOne();
+		 	return $result["{$this->table}_count"];
+		 }
+		 return $adapter->fetchAll();
+ 	}
+ 	
+ 	
+ 	public function save($role){
+ 		$this->bind = array(); 
+ 		$this->sql_helper = new Sql();
+ 		if(array_key_exists($this->primaryKey,$role)){
+ 			//更新方法
+ 			
+ 			$this->sql_helper->from($this->table)
+ 							 ->update($this->table, $role)
+ 							 ->where($this->table, $this->primaryKey, "=",$role[$this->primaryKey]);
+ 			$sql = $this->sql_helper->__toString();
+ 			return $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind)->affectedCount();
+ 		
+ 		}else{
+ 			//保存方法
+ 			$this->sql_helper->insert($this->table, $this->alias, $role);
+ 			$sql = $this->sql_helper->__toString();
+ 			return $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind)->lastInsertId();
+ 		}
+ 	}
+ 	
+ 	public function del($id){
+ 		if(!empty($id)){
+ 			$this->sql_helper
+ 					->delete($this->table)
+ 			 		->where($this->table, $this->primaryKey, "=",$id);
+ 			$sql = $this->sql_helper->__toString();
+ 			return $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind)->lastInsertId();
+ 		}
+ 		return false;
+ 	}
+ 	
+ 	
+ 	public function get($id){
+ 		if(!empty($id)){
+ 			$this->sql_helper = new Sql();
+ 			$this->sql_helper
+ 			->from($this->table)
+ 			->select($this->table)
+ 			->where($this->table, $this->primaryKey, "=",$id);
+ 			$sql = $this->sql_helper->__toString();
+ 			return $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind)->fetchOne();
+ 		}
+ 		return false;
+ 	}
+	
 }
