@@ -6,8 +6,7 @@ class User extends Dao{
 
 	private static $tag = 'Model_User';
 	protected $table = 'sys_user';
-	protected $alias = 'user';
-	protected $conn = NULL;
+	protected $alias = 'sys_user';
 	protected $primaryKey = 'user_id';
 		
 	protected $foreignKey = 'role';
@@ -25,13 +24,6 @@ class User extends Dao{
 		$this->sql_helper = new Sql();
 	}
 	
-	public function getOne($id){
-		$sql = 'select * from sys_user where user_id=:user_id';
-		$data[':user_id'] = $id;
-		return $this->adapter->conn()
-					->preparedSql($sql, $data)
-					->fetchOne();
-	}
 	
 	public function getAll($params,$is_count = true){
 		 return $this->select($params,$is_count);

@@ -34,8 +34,8 @@
          <td class="hidden-phone"> {{$user['mobile']}}</td>
          <td class="hidden-phone"> {{$user['password']}}</td>
          <td class="hidden-phone">@if($user['user_id']==1) 超级管理员 @else {{$user['role_name']}} @endif</td>
-         <td><a href="/user/edit?id= {{$user['user_id']}}" class="btn btn-info" >编辑</a>
-             <a href="/user/del?id= {{$user['user_id']}}" onclick="return confirm('您确定删除角色吗?');" class="btn btn-danger" >删除</a>
+         <td><a href="/user/edit?id={{$user['user_id']}}" class="btn btn-info" >编辑</a>
+             <a href="/user/del?id={{$user['user_id']}}" onclick="return confirm('您确定删除角色吗?');" class="btn btn-danger" >删除</a>
          </td>
         </tr>
 		@endforeach

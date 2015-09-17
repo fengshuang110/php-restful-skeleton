@@ -316,9 +316,21 @@ class Dao{
 		$this->expire = 300;
 	}
 	
-	//查询
+	
+	/**
+	 * @param unknown $params
+	 * @param string $is_count
+	 * @return unknown
+	 * $params = array(
+	 * 		"field"=>array(),
+	 * 		"limit"=>10
+	 * 		"start"=>0,
+	 * 		orderby = array(array("field"=>"id","sort"=>"desc"))
+	 * )
+	 */
 	public function select($params,$is_count = false){
 		$this->bind = array();
+		$params['field'] = empty($params['field']) ? array("*") :$params['field'];
 		 if($is_count){
 		 	$this->sql_helper
 		 			->from($this->table)
@@ -326,8 +338,8 @@ class Dao{
 		 }else{
 		 	$params['start'] =empty($params['start']) ? 0:$params['start'];
 		 	$params['limit'] =empty($params['limit']) ? 15:$params['limit'];
-		 	$this->sql_helper
-		 			->select2($this->table)
+		 	$this->sql_helper->from($this->table)
+		 			->select($this->table,$params['field'])
 		 			->limit($params['start'],$params['limit']);
 		 	if(!empty($params['groupby'])){
 		 		foreach ($params['groupby'] as $groupby){
@@ -336,7 +348,8 @@ class Dao{
 		 	}
 		 	if(!empty($params['orderby'])){
 		 		foreach ($params['orderby'] as $orderby){
-		 			$this->sql_helper->orderBy($this->table, $orderby);
+		 			$orderby["sort"] = empty($orderby["sort"]) ? "desc" : $orderby["sort"];
+		 			$this->sql_helper->orderBy($this->table, $orderby['field'],$orderby["sort"]);
 		 		}
 		 	}
 		 	if(!empty($this->foreign)){
@@ -347,10 +360,17 @@ class Dao{
 		 					$this->table.".".$this->foreignKey."=".$this->foreign['table'].".".$this->foreign['key']);
 		 	}
 		 	
+		 	if(!empty($params['where'])){
+		 		foreach($params['where'] as $where){
+		 			$this->sql_helper->where($where['table'], $where['field'],$where['op'],$where['value']);
+		 		}
+		 	}
+		 	
 		 }
 		 
 		
 		 $sql = $this->sql_helper->__toString();
+		
 		 
 		 $adapter = $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind);
 		 
@@ -362,21 +382,21 @@ class Dao{
  	}
  	
  	
- 	public function save($role){
+ 	public function save($data){
  		$this->bind = array(); 
  		$this->sql_helper = new Sql();
- 		if(array_key_exists($this->primaryKey,$role)){
+ 		if(array_key_exists($this->primaryKey,$data)){
  			//更新方法
  			
  			$this->sql_helper->from($this->table)
- 							 ->update($this->table, $role)
- 							 ->where($this->table, $this->primaryKey, "=",$role[$this->primaryKey]);
+ 							 ->update($this->table, $data)
+ 							 ->where($this->table, $this->primaryKey, "=",$data[$this->primaryKey]);
  			$sql = $this->sql_helper->__toString();
  			return $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind)->affectedCount();
  		
  		}else{
  			//保存方法
- 			$this->sql_helper->insert($this->table, $this->alias, $role);
+ 			$this->sql_helper->insert($this->table, $this->table, $role);
  			$sql = $this->sql_helper->__toString();
  			return $this->adapter->conn()->preparedSql($sql, $this->sql_helper->bind)->lastInsertId();
  		}

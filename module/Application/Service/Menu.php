@@ -16,4 +16,26 @@ class Menu extends Service {
 		return $menus;
 	}
 	
+	public function save($menu){
+		return $this->getModel('Menu')->save($menu);
+	}
+	
+	public function get($id){
+		return $this->getModel('Menu')->get($id);
+	}
+	
+	public function del($id){
+		$this->getModel('Menu')->del($id);
+	}
+	
+	public function getParent(){
+		$params['where'] = array(
+				array("table"=>'sys_menu',
+					  "field"=>"parent_id",
+					   "op"=>"=",
+					   "value"=>0),
+		);
+		return $this->getModel('Menu')->getAll($params);
+	}
+	
 }

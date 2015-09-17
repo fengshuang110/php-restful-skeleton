@@ -1,4 +1,4 @@
-@extends('public.header')
+@extends('public.admin.header')
 
 @section('content')
  <div class="row">
@@ -9,8 +9,8 @@
    </header>
    <div class="panel-body">
     
-   <form method="post" id="form" class="form-horizontal bucket-form">
-   <input type="hidden" name="user[id]" value="<?php echo $user['id']?>"/>
+   <form method="post" action="/user/add" id="form" class="form-horizontal bucket-form">
+   <input type="hidden" name="user[user_id]" value="<?php echo $user['user_id']?>"/>
 
    <div class="form-group">
  	 <label class="col-sm-2 control-label">用户名</label>
@@ -30,7 +30,7 @@
     <div class="form-group">
  	 <label class="col-sm-2 control-label">姓名</label>
       <div class="col-sm-10">
-         <input type="text" valid="required" value="<?php echo $user['real_name']?>" class="form-control" name="user[real_name]" placeholder="姓名">
+         <input type="text" valid="required" value="<?php echo $user['realname']?>" class="form-control" name="user[realname]" placeholder="姓名">
       </div>
     </div>    
     

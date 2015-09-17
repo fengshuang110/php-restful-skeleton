@@ -25,14 +25,15 @@ class Login extends Base{
 	}
 	
 	/**
-	 * @url POST /check
+	 *  @url POST /check
+	 * @param string $username
+	 * @param string $password
+	 * @param string $vcode
+	 * @return multitype:number string |multitype:number string multitype:string unknown
 	 */
-	public function check(){
+	public function check($username,$password,$vcode){
 		$request = $this->getRequest();
 		if($request->isXmlHttpRequest()){
-			$username = $request->getPost("username");
-			$password = $request->getPost("password");
-			$vcode =  $request->getPost("vcode");
 			if(strtolower($vcode) !=  strtolower($_SESSION['VCODE_TYPE_login'])){
 				return array("code"=>1,"msg"=>"验证码错误");
 			}

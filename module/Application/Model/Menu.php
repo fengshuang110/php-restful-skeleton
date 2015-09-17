@@ -6,7 +6,7 @@ class Menu extends Dao{
 
 	private static $tag = 'Model_Menu';
 	protected $table = 'sys_menu';
-	protected $conn = NULL;
+	protected $alias = 'sys_user';
 	protected $primaryKey = 'menu_id';
 	public   $adapter = null;
 	
@@ -23,7 +23,7 @@ class Menu extends Dao{
 			 		->fetchAll();;
 	}
 	
-	public function getAll($params,$is_count = true){
+	public function getAll($params,$is_count = false){
 		return $this->select($params,$is_count);
 			
 	}

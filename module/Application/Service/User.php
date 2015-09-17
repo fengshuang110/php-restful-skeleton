@@ -8,7 +8,7 @@ class User extends Service {
 	private  $userModel; //数据层实例
 	
 	public function getOne($id){
-		return $this->getModel('User')->find($id);//lavarel orm自带  优点是简单方便
+		return $this->getModel('User')->get($id);//lavarel orm自带  优点是简单方便
 	}
 	
 	public function getOneByUsername($username){
@@ -17,10 +17,10 @@ class User extends Service {
 	
 	
 	public function getAll($params,$iscount = false){
-		return $this->getModel('User')-> getAll($params,$iscount);
+		return $this->getModel('User')->getAll($params,$iscount);
 	}
 	
-	public function register($user){
+	public function save($user){
 		$user['password'] = \Helper_String::getRandomPwd();
 		return $this->getModel('User')->save($user);
 	}

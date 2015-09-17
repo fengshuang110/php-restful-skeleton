@@ -1,7 +1,7 @@
 <nav>
-@if($totalPage == 1)
- <ul class="pagination">
 
+ <ul class="pagination">
+@if($totalPage == 1)
    <li class="disabled"> <span>上一页</span></li>
    <li class="active" ><a hre="#">1</a></li>
    <li><span>下一页</span></li>
@@ -57,9 +57,9 @@
     @if($page==$totalPage)<li class="disabled"><span>下一页</span></li>
     @else <li><a href="?{{$page_query}}&pn={{$page+1}}">下一页</a> </li>
     @endif
-
-</ul>
 @endif
+</ul>
+
 @if($totalPage == 0)
 <div class="alert alert-danger" role="alert">
       <strong>好像什么都没有!</strong> 添加新的条目试试.

@@ -9,7 +9,7 @@
     <!-- Bootstrap -->
     <link href="/public/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/public/css/dashboard.css" rel="stylesheet">
-
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
   </head>
             
 </head>
@@ -94,8 +94,7 @@
      
 </section>
  
- <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+   
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/public/js/bootstrap.min.js"></script>
         <!--footer section end-->

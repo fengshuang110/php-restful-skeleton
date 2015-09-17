@@ -47,19 +47,14 @@ class Role extends Member{
 	 * @url POST /edit
 	 * @return multitype:
 	 */
-	public function edit(){
-		$request =$this->getRequest();
-		$id = $request->getQuery("id",0);
+	public function edit($id){
 		//删除权限
 		$role = $this->getService("Application\Service\Role")->get($id);
 		HtmlFormat::$data['role']=$role;
 		return array();
 	}
 	//删除角色
-	public function del(){
-		
-		$request =$this->getRequest();
-		$id = $request->getQuery("id",0);
+	public function del($id){
 		//删除权限
 		$this->getService("Application\Service\Role")->del($id);
 		$this->redirect("/role/lists");		
