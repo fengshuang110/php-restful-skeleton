@@ -19,6 +19,7 @@ Abstract class Base  {
 	
 	/**
 	 * 获取资源消耗
+	 * @access private
 	 * @return array
 	 */
 	function runtime(){
@@ -30,7 +31,9 @@ Abstract class Base  {
 		return $return;
 	}
 	
-	
+	/**
+	 *@access private
+	 */
 	public function getService($ServiceName){
 		
 		if($this->serviceLocator->has($ServiceName)){
